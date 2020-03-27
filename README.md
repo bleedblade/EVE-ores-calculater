@@ -1,0 +1,2 @@
+# EVE-orc-calculater
+基于Django的静态lpsolve使用，能够通过矿物计算出所需的矿石并结合jita buy市场给出花费最低的方案
