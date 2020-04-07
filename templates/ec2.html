@@ -6,19 +6,16 @@
 <body>
 	<table>
 <tr>
-	<td>高密度矿</td><td>所需数量</td><td>jita buy当前单价</td>
-</tr><tr>
-	<td>艾克诺岩Arkonor：</td><td>{{ aike }}</td><td>{{ price0 }}</td>
-</tr><tr>
-	<td>黑赭石Dark Ochre：</td><td>{{ heizhe }}</td><td>{{ price1 }}</td>
-</tr><tr>
-	<td>灰岩Spodumain：</td><td>{{ huiyan }}</td><td>{{ price2 }}</td>
-</tr><tr>
-	<td>克洛基石Crokite：</td><td>{{ keluo }}</td><td>{{ price3 }}</td>
-</tr><tr>
-	<td>双多特石 Bistot：</td><td>{{ shuangduo }}</td><td>{{ price4 }}</td>
-</tr><tr>
-	<td>片麻岩 Gneiss：</td><td>{{ pianma }}</td><td>{{ price5 }}</td>
+	<td>高密度矿</td><td>所需数量</td><td>已有数量</td><td>jita buy当前单价</td>
+</tr>
+{% for i in kuang %}
+<tr>
+	<td>{{ i.0 }}</td>
+	<td>{{ i.1 }}</td>
+	<td>{{ i.2 }}</td>
+	<td>{{ i.3 }}</td>
+</tr>
+{% endfor %}
 </tr>
 </table>
 <span>总价：{{ cost }}</span>
@@ -45,4 +42,5 @@
 
 </body>
 </html> 
+
 

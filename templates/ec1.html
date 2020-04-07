@@ -4,14 +4,36 @@
 	<title>00高密度矿石矿物计算器</title>
 </head>
 <body>
-	<h3>00高密度矿石矿物计算器</h3>
-	<p>只支持如下矿石：艾克诺岩Arkonor 黑赭石Dark Ochre 灰岩Spodumain 克洛基石Crokite 双多特石 Bistot 片麻岩 Gneiss</p>
+	<h3>高密度矿石矿物计算器</h3>
+	
 	<p>相关数据请查看此文档： <a href="https://docs.qq.com/sheet/DWFVicFRSeHBFWFlu?tab=BB08J2&c=A1A0A0">https://docs.qq.com/sheet/DWFVicFRSeHBFWFlu?tab=BB08J2&c=A1A0A0 </a>，数据如有误请反馈</p>
-	<p>没有设置已有矿石数量，请根据结果自行计算</p>
-	<p>计算器根据evemarketer市场计算出满足矿物需求的最低价矿石花费参考，而非溢出矿物最少。</p>
-	<p>最终计算的矿物为表2所填矿物+表3中组件经由表1材料减免后的矿物</p>
+	<p>精炼率：可以根据<a href="https://docs.google.com/spreadsheets/d/1HlDcxHWJAvYpkNg16lD6u-w8NQVQKkyfJ7Xjl69tTfE/edit#gid=0">https://docs.google.com/spreadsheets/d/1HlDcxHWJAvYpkNg16lD6u-w8NQVQKkyfJ7Xjl69tTfE/edit#gid=0</a> 计算填写。存在误差。</p>
+	<p>计算器根据evemarketer市场计算出满足矿物需求的最低价矿石花费参考，而非溢出矿物最少。有小误差。如果计算结果异常请检查矿石组合。</p>
+	<p>最终计算的矿物为表3所填矿物+表4中组件经由表2材料减免后的矿物</p>
 	<br>
-	<form action="/ec2/" method="post">
+	
+	<form action="/ec2/" method="post" id="form">
+		<table><b>参与计算的矿石</b>
+			<tr><td></td><td>是否参与计算</td><td>已拥有</td></tr>
+<tr><td>希莫非特Hemorphite</td><td><input type="checkbox" name="kuangcb" value=0></td><td><input name="h_kuang0" value="0" type="number"></tr>
+<tr><td>水硼砂Kernite</td><td><input type="checkbox" name="kuangcb" value=1></td><td><input name="h_kuang1" value="0" type="number"></tr>
+<tr><td>奥贝尔石Omber</td><td><input type="checkbox" name="kuangcb" value=2></td><td><input name="h_kuang2" value="0" type="number"></tr>
+<tr><td>斜长岩Plagioclase</td><td><input type="checkbox" name="kuangcb" value=3></td><td><input name="h_kuang3" value="0" type="number"></tr>
+<tr><td>干焦岩Pyroxeres</td><td><input type="checkbox" name="kuangcb" value=4></td><td><input name="h_kuang4" value="0" type="number"></tr>
+<tr><td>灼烧岩Scordite</td><td><input type="checkbox" name="kuangcb" value=5></td><td><input name="h_kuang5" value="0" type="number"></tr>
+<tr><td>凡晶石Veldspar</td><td><input type="checkbox" name="kuangcb" value=6></td><td><input name="h_kuang6" value="0" type="number"></tr>
+<tr><td>同位原矿Hedbergite</td><td><input type="checkbox" name="kuangcb" value=7></td><td><input name="h_kuang7" value="0" type="number"></tr>
+<tr><td>杰斯贝矿Jaspet</td><td><input type="checkbox" name="kuangcb" value=8></td><td><input name="h_kuang8" value="0" type="number"></tr>
+<tr><td>艾克诺岩Arkonor</td><td><input type="checkbox" name="kuangcb" value=9></td><td><input name="h_kuang9" value="0" type="number"></tr>
+<tr><td>黑赭石Dark Ochre</td><td><input type="checkbox" name="kuangcb" value=10></td><td><input name="h_kuang10" value="0" type="number"></tr>
+<tr><td>灰岩Spodumain</td><td><input type="checkbox" name="kuangcb" value=11></td><td><input name="h_kuang11" value="0" type="number"></tr>
+<tr><td>克洛基石Crokite</td><td><input type="checkbox" name="kuangcb" value=12></td><td><input name="h_kuang12" value="0" type="number"></tr>
+<tr><td>双多特石Bistot</td><td><input type="checkbox" name="kuangcb" value=13></td><td><input name="h_kuang13" value="0" type="number"></tr>
+<tr><td>片麻岩Gneiss </td><td><input type="checkbox" name="kuangcb" value=14></td><td><input name="h_kuang14" value="0" type="number"></tr>
+			
+		</table>
+	<input type="text" name="kuang" style="display:none;">	
+	<br>
 		{% csrf_token %}
 		<table><b>材料减免百分比</b>
 	<tr>
@@ -36,7 +58,7 @@
 	</tr>
 </table>
 <br>
-	<table><b>请输入所需矿物</b>
+	<table><b>所需单独矿物</b>
 		<br>
 <tr>
 <td>三钛合金Tritanium：</td><td><input type="number" name="santai" value="0"></td>
@@ -56,7 +78,7 @@
 </table>
 <br>
 
-<table><b>旗舰组件计算（和上方矿物不冲突）</b>
+<table><b>旗舰组件矿物计算（和上方矿物不冲突）</b>
 	<tr>
 		<td>旗舰组件</td>
 		<td>所需数量</td>
@@ -81,8 +103,38 @@
 <tr><td>旗舰货柜舱Capital Cargo Bay</td><td><input type="number" name="qj17" value="0" min="0"></td></tr>
 
 </table>
-<input type="submit" value="开始计算">
+<input type="button" value="开始计算" onclick="addp()">
 <input type="reset" value="全部重置">
+<span style="display: none;color: red;" id="nokuangselected">未选择矿石</span>
 </form>
+
+<script type="text/javascript">
+	function addp(){
+	var kuangcb=document.getElementsByName("kuangcb");
+	var nokuang = document.getElementById("nokuangselected")
+	var form = document.getElementById("form")
+	var kuang = document.getElementsByName("kuang")
+	var s='';
+	for(var i=0;i<kuangcb.length;i++){
+  		if(kuangcb[i].checked){
+    	s+=kuangcb[i].value+','}}
+	s=s.substring(0,s.length-1);
+	console.log(s)
+	if(s==''){
+		nokuang.style.display=""
+	return
+	}
+	if (nokuang.style.display=="") {
+		nokuang.style.display="none"
+	}
+	kuang[0].value=s
+        console.log(s)
+        form.submit()
+}
+
+	
+
+</script>
 </body>
 </html>
+
