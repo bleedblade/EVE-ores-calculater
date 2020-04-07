@@ -1,7 +1,17 @@
 # EVE-ores-calculater
-基于Django的静态lpsolve使用，能够通过矿物计算出所需的矿石并结合jita buy市场给出花费最低的方案
+基于Django的静态lpsolve使用，能够通过矿物计算出所需的矿石并结合jita buy市场给出花费最低的方案。
 
-目前只支持：艾克诺岩Arkonor  黑赭石Dark Ochre  灰岩Spodumain  克洛基石Crokite  双多特石 Bistot  片麻岩 Gneiss 的100%化矿计算
+使用Redis缓存获取到的价格数据。
 
-输入所需矿物
-输出所需高密度矿石数量，以evemarketer同步的市场jita buy价格作为主要依据
+需要：Python3(.7),lpsolve,Django,Redis,django-redis
+
+目前支持全部15种标准矿石。
+默认生产环境为00。（高安低安的话建筑插加成和00不一致）
+
+有一定小误差。
+
+输入参与计算的矿石，拥有的矿石数，所需矿物和所需旗舰组件数量，以及精炼率、建筑加成、建筑插加成、组件图纸材料效率。
+输出所需高密度矿石价格、数量，化矿得到的矿物和跟所需矿物相比的差。
+
+
+都玩EVE了要什么CSS样式（滑稽）
