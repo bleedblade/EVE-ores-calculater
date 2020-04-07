@@ -14,6 +14,7 @@ from lp_maker import *
 import math
 import requests
 import json
+from django.core.cache import cache
 # 表单
 def ec1(request):
     return render(request,'ec1.html')
@@ -39,20 +40,64 @@ def ec2(request):
     120heizheshi + 760keluojishi >=
     '''
     request.encoding='utf-8'
+    #获取前端选择的参与计算的矿石checkbox拼接字符串
+    kuangs=request.POST['kuang']
+    kl1=[ int(x) for x in kuangs.split(",") ]
+
+    kuangname=["希莫非特Hemorphite","水硼砂Kernite","奥贝尔石Omber","斜长岩Plagioclase","干焦岩Pyroxeres","灼烧岩Scordite","凡晶石Veldspar","同位原矿Hedbergite","杰斯贝矿Jaspet","艾克诺岩Arkonor","黑赭石Dark Ochre","灰岩Spodumain","克洛基石Crokite","双多特石Bistot","片麻岩Gneiss"]
+    kuanglian={
+            "希莫非特Hemorphite":[2200,100,15,0,0,0,120],
+            "水硼砂Kernite":[134,134,0,0,267,0,0],
+            "奥贝尔石Omber":[800,85,0,100,0,0,0],
+            "斜长岩Plagioclase":[107,0,0,213,107,0,0],
+            "干焦岩Pyroxeres":[351,0,0,25,50,0,5],
+            "灼烧岩Scordite":[346,0,0,173,0,0,0],
+            "凡晶石Veldspar":[415,0,0,0,0,0,0],
+            "同位原矿Hedbergite":[0,200,19,1000,0,0,100],
+            "杰斯贝矿Jaspet":[0,0,8,0,350,0,75],
+            "艾克诺岩Arkonor":[22000,0,0,0,2500,320,0],
+            "黑赭石Dark Ochre":[10000,1600,0,0,0,0,120],
+            "灰岩Spodumain":[56000,450,0,12050,2100,0,0],
+            "克洛基石Crokite":[21000,0,135,0,0,0,750],
+            "双多特石Bistot":[0,0,450,12000,0,100,0],
+            "片麻岩Gneiss":[0,300,0,2200,2400,0,0]
+            }
+    kuanglianlist=[]
+    for i in kuangname:
+        kuanglianlist.append(kuanglian[i])
+        
+    kl2=[]#用来获取各个所需矿石的精炼列表
+    for i in kl1:
+        kl2.append(kuanglian[kuangname[i]])
+
     
-    #获取Evemarketer的矿石价格数据
+    daijinglian=[[],[],[],[],[],[],[]]
+    for i in range(0,7):
+        for j in kl2:
+            daijinglian[i].append(j[i])
+    print(daijinglian)
+ 
+    #这里需要改成xx key and xx key
     kuangpricelist=[]
-    kuanglist=[28367,28394,28420,28391,28388,28397]
-    for j in kuanglist:
-        req_url='https://api.evemarketer.com/ec/marketstat/json?typeid='+str(j)+'&regionlimit=10000002'
-        req=requests.get(req_url) #发送请求
-        rt=req.text  #获取响应信息
-        itemPriceInfo=json.loads(rt)  #将JSON str转换为原格式，此处为list格式
-        itemBuy=itemPriceInfo[0]['buy']['max']  #获取jita buy最高价
-        kuangpricelist.append(itemBuy)
-    
-    
+    kuangidlist=[28403,28410,28416,28422,28424,28429,28432,28401,28406,28367,28394,28420,28391,28388,28397]
+    kuangpricelistall=['','','','','','','','','','','','','','','']
+    for i in kl1:
+        is_cache=cache.get(kuangname[i])
+        if(is_cache):
+            kuangpricelist.append(is_cache)
+            kuangpricelistall[i]=is_cache
+        else:
+            req_url='https://api.evemarketer.com/ec/marketstat/json?typeid='+str(kuangidlist[i])+'&regionlimit=10000002'
+            req=requests.get(req_url) #发送请求
+            rt=req.text  #获取响应信息
+            itemPriceInfo=json.loads(rt)  #将JSON str转换为原格式，此处为list格式
+            itemBuy=itemPriceInfo[0]['buy']['max']  #获取jita buy最高价
+            kuangpricelist.append(itemBuy)
+            cache.set(kuangname[i],itemBuy,600)
+            kuangpricelistall[i]=itemBuy
+
     print(kuangpricelist)
+    
     '''
     n_santaihejin = 774565133
     n_tongweijuheti = 10489443
@@ -70,6 +115,8 @@ def ec2(request):
     n_chaoshikuang=int(request.POST['chaoshi'])
     n_chaoxinxing=int(request.POST['chaoxin'])
     
+    
+
     
     #获取到输入的矿物需求，接下来加上旗舰组件的数据
     #旗舰组件矿数量
@@ -113,6 +160,7 @@ def ec2(request):
     q17=int(request.POST['qj17'])
     qjsl=[q0,q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,q16,q17]
     
+    #旗舰需要的矿物先清零
     qn_santaihejin=0
     qn_tongweijuheti=0
     qn_jingzhuangshiying=0
@@ -146,37 +194,76 @@ def ec2(request):
     qn_chaoshikuang = math.ceil(qn_chaoshikuang * jianmian)
     qn_chaoxinxing = math.ceil(qn_chaoxinxing * jianmian)
     
-    #至此得到最终所需矿物
-    n_santaihejin = n_santaihejin + qn_santaihejin
-    n_tongweijuheti = n_tongweijuheti + qn_tongweijuheti
-    n_jingzhuangshiying = n_jingzhuangshiying + qn_jingzhuangshiying
-    n_leijingti = n_leijingti + qn_leijingti
-    n_leiyin = n_leiyin + qn_leiyin
-    n_chaoshikuang = n_chaoshikuang + qn_chaoshikuang
-    n_chaoxinxing = n_chaoxinxing + qn_chaoxinxing
-    
-    
-    
     #通过精炼率计算出化矿产物
-    jinglianlv=float(request.POST['jinglianlv'])
-    jinglian=[[22000,10000,56000,2100,0,0],[0,1600,450,0,0,300],[0,0,0,135,450,0],[0,0,12050,0,12000,2200],[2500,0,2100,0,0,2400],[320,0,0,0,100,0],[0,120,0,760,0,0]]
-    A=[[22000,10000,56000,2100,0,0],[0,1600,450,0,0,300],[0,0,0,135,450,0],[0,0,12050,0,12000,2200],[2500,0,2100,0,0,2400],[320,0,0,0,100,0],[0,120,0,760,0,0]]
+    jinglianlv=float(request.POST['jinglianlv'])/100
+    
+    #减去已有的矿石数量
+    hk0=int(request.POST['h_kuang0'])
+    hk1=int(request.POST['h_kuang1'])
+    hk2=int(request.POST['h_kuang2'])
+    hk3=int(request.POST['h_kuang3'])
+    hk4=int(request.POST['h_kuang4'])
+    hk5=int(request.POST['h_kuang5'])
+    hk6=int(request.POST['h_kuang6'])
+    hk7=int(request.POST['h_kuang7'])
+    hk8=int(request.POST['h_kuang8'])
+    hk9=int(request.POST['h_kuang9'])
+    hk10=int(request.POST['h_kuang10'])
+    hk11=int(request.POST['h_kuang11'])
+    hk12=int(request.POST['h_kuang12'])
+    hk13=int(request.POST['h_kuang13'])
+    hk14=int(request.POST['h_kuang14'])
+    havekuanglist=[hk0,hk1,hk2,hk3,hk4,hk5,hk6,hk7,hk8,hk9,hk10,hk11,hk12,hk13,hk14]
+    h_santaihejin = 0
+    h_tongweijuheti = 0
+    h_jingzhuangshiying = 0
+    h_leijingti = 0
+    h_leiyin = 0
+    h_chaoshikuang = 0
+    h_chaoxinxing = 0
+    for i in range(0,15):          
+        h_santaihejin = h_santaihejin + math.floor(havekuanglist[i]*kuanglianlist[i][0]*jinglianlv)
+        h_tongweijuheti = h_tongweijuheti + math.floor(havekuanglist[i]*kuanglianlist[i][1]*jinglianlv)
+        h_jingzhuangshiying = h_jingzhuangshiying + math.floor(havekuanglist[i]*kuanglianlist[i][2]*jinglianlv)
+        h_leijingti = h_leijingti + math.floor(havekuanglist[i]*kuanglianlist[i][3]*jinglianlv)
+        h_leiyin = h_leiyin + math.floor(havekuanglist[i]*kuanglianlist[i][4]*jinglianlv)
+        h_chaoshikuang = h_chaoshikuang + math.floor(havekuanglist[i]*kuanglianlist[i][5]*jinglianlv)
+        h_chaoxinxing = h_chaoxinxing + math.floor(havekuanglist[i]*kuanglianlist[i][6]*jinglianlv)
+    
+    
+    #至此得到最终所需矿物
+    n_santaihejin = n_santaihejin + qn_santaihejin - h_santaihejin
+    n_tongweijuheti = n_tongweijuheti + qn_tongweijuheti - h_tongweijuheti
+    n_jingzhuangshiying = n_jingzhuangshiying + qn_jingzhuangshiying - h_jingzhuangshiying
+    n_leijingti = n_leijingti + qn_leijingti - h_leijingti
+    n_leiyin = n_leiyin + qn_leiyin - h_leiyin
+    n_chaoshikuang = n_chaoshikuang + qn_chaoshikuang - h_chaoshikuang
+    n_chaoxinxing = n_chaoxinxing + qn_chaoxinxing - h_chaoxinxing
+    
+    
+    
+    
 
-    for i in range(len(jinglian)):
-        for j in range(len(jinglian[i])):
-            A[i][j]=jinglian[i][j]*jinglianlv
+    A=[[],[],[],[],[],[],[]]
+    #A在最开始获取选取的矿石时已定义
+    for i in range(len(daijinglian)):
+        for j in range(len(daijinglian[i])):
+            A[i].append(math.floor(daijinglian[i][j]*jinglianlv))
     print(A)
             
-    
+    l=[]
+    for i in range(len(kl1)):
+        l.append(0)
+
     #以最少花费计算
-    f=[kuangpricelist[0],kuangpricelist[1],kuangpricelist[2],kuangpricelist[3],kuangpricelist[4],kuangpricelist[5]]
+    f=kuangpricelist
     #以最少矿石数量计算
     #f=[1,1,1,1,1,1]
     #列表A在上面的精炼计算区域已经定义了
     #A=[[22000,10000,56000,2100,0,0],[0,1600,450,0,0,300],[0,0,0,135,450,0],[0,0,12050,0,12000,2200],[2500,0,2100,0,0,2400],[320,0,0,0,100,0],[0,120,0,760,0,0]]
     b=[n_santaihejin,n_tongweijuheti,n_jingzhuangshiying,n_leijingti,n_leiyin,n_chaoshikuang,n_chaoxinxing]
-    e=[1,1,1,1,1,1,1]
-    l=[0,0,0,0,0,0]
+    e=[1,1,1,1,1,1,1]#全大于
+    #l=[0,0,0,0,0,0]#最小值
     
     lp=lp_maker(f,A,b,[1,1,1,1,1,1,1],l,None,None,1,1)
     #set_int(lp,1,TRUE)
@@ -186,6 +273,11 @@ def ec2(request):
     #将规划好的数据向上取整，得到各高密度矿石数量
     for i in range(len(x)):
         x[i] = math.ceil(x[i])
+    
+    answer=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    for i in range(len(kl1)):   
+        answer[kl1[i]]=int(x[i])
+    
     '''
     #这里获取输入的已有矿石数量，要求格式：名字-数量-组
     tas="""三晶双多特斜岩	79	双多特石
@@ -223,50 +315,35 @@ def ec2(request):
     '''
     
     
-    print("0艾克诺岩Arkonor："+str(x[0]))
-    print("1黑赭石Dark Ochre："+str(x[1]))
-    print("2灰岩Spodumain："+str(x[2]))
-    print("3克洛基石Crokite："+str(x[3]))
-    print("4双多特石 Bistot："+str(x[4]))
-    print("5片麻岩 Gneiss ："+str(x[5]))
+    #f_ = h_ + anwser[]
+    f_santaihejin = h_santaihejin
+    f_tongweijuheti = h_tongweijuheti
+    f_jingzhuangshiying = h_jingzhuangshiying
+    f_leijingti = h_leijingti
+    f_leiyin = h_leiyin
+    f_chaoshikuang = h_chaoshikuang
+    f_chaoxinxing = h_chaoxinxing
+    for i in range(0,15):
+        f_santaihejin = f_santaihejin + math.floor(answer[i]*kuanglianlist[i][0]*jinglianlv)
+        f_tongweijuheti = f_tongweijuheti + math.floor(answer[i]*kuanglianlist[i][1]*jinglianlv)
+        f_jingzhuangshiying = f_jingzhuangshiying + math.floor(answer[i]*kuanglianlist[i][2]*jinglianlv)
+        f_leijingti = f_leijingti + math.floor(answer[i]*kuanglianlist[i][3]*jinglianlv)
+        f_leiyin = f_leiyin + math.floor(answer[i]*kuanglianlist[i][4]*jinglianlv)
+        f_chaoshikuang = f_chaoshikuang + math.floor(answer[i]*kuanglianlist[i][5]*jinglianlv)
+        f_chaoxinxing = f_chaoxinxing + math.floor(answer[i]*kuanglianlist[i][6]*jinglianlv)
     
-    
-    f_santaihejin = A[0][0]*x[0] + A[0][1]*x[1] + A[0][2]*x[2] + A[0][3]*x[3]
-    f_tongweijuheti = A[1][1]*x[1] + A[1][2]*x[2] + A[1][5]*x[5]
-    f_jingzhuangshiying = A[2][3]*x[3] + A[2][4]*x[4]
-    f_leijingti = A[3][2]*x[2] + A[3][4]*x[4] + A[3][5]*x[5]
-    f_leiyin = A[4][0]*x[0] + A[4][2]*x[2] + A[4][5]*x[5]
-    f_chaoshikuang = A[5][0]*x[0] + A[5][4]*x[4]
-    f_chaoxinxing = A[6][1]*x[1] + A[6][3]*x[3]
-    
-    
-    print("三钛合金Tritanium："+str(f_santaihejin)+"/"+str(n_santaihejin)+"，差值为：" + str(f_santaihejin-n_santaihejin))
-    print("同位聚合体Isogen："+str(f_tongweijuheti)+"/"+str(n_tongweijuheti)+"，差值为：" + str(f_tongweijuheti-n_tongweijuheti))
-    print("晶状石英Zydrine："+str(f_jingzhuangshiying)+"/"+str(n_jingzhuangshiying)+"，差值为：" + str(f_jingzhuangshiying-n_jingzhuangshiying))
-    print("类晶体Pyerite："+str(f_leijingti)+"/"+str(n_leijingti)+"，差值为：" + str(f_leijingti-n_leijingti))
-    print("类银Mexallon："+str(f_leiyin)+"/"+str(n_leiyin)+"，差值为：" + str(f_leiyin-n_leiyin))
-    print("超噬矿Megacyte："+str(f_chaoshikuang)+"/"+str(n_chaoshikuang)+"，差值为：" + str(f_chaoshikuang-n_chaoshikuang))
-    print("超新星Nocxium："+str(f_chaoxinxing)+"/"+str(n_chaoxinxing)+"，差值为：" + str(f_chaoxinxing-n_chaoxinxing))
-    
-    cost=x[0]*kuangpricelist[0]+x[1]*kuangpricelist[1]+x[2]*kuangpricelist[2]+x[3]*kuangpricelist[3]+x[4]*kuangpricelist[4]+x[5]*kuangpricelist[5]
+    cost=0
+    for i in range(len(kuangpricelist)):
+        cost = cost + answer[i]*kuangpricelist[i]
     
 
     
     
     context={}
-    context['aike']=x[0]
-    context['heizhe']=x[1]
-    context['huiyan']=x[2]
-    context['keluo']=x[3]
-    context['shuangduo']=x[4]
-    context['pianma']=x[5]
+    #名字数组kuangname，answer,havekuanglist,kuangpricelistall
+    context["kuang"]=list(zip(kuangname,answer,havekuanglist,kuangpricelistall))
     
-    context['price0']=format(kuangpricelist[0],',')
-    context['price1']=format(kuangpricelist[1],',')
-    context['price2']=format(kuangpricelist[2],',')
-    context['price3']=format(kuangpricelist[3],',')
-    context['price4']=format(kuangpricelist[4],',')
-    context['price5']=format(kuangpricelist[5],',')
+    
     context['cost']=format(cost,',')
 
     context['n_santai']=n_santaihejin
@@ -292,3 +369,4 @@ def ec2(request):
     context['m_chaoxin']=f_chaoxinxing-n_chaoxinxing
     
     return render(request, 'ec2.html', context)
+
