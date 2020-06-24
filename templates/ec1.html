@@ -41,11 +41,11 @@
 		<table><b>材料减免百分比</b>
 	<tr>
 		<td>精炼率（%）：</td>
-		<td><input type="text" name="jinglianlv" value="89"></td>
+		<td><input type="text" name="jinglianlv" value="89" placeholder="不能为空 not null" required></td>
 	</tr>
 	<tr>
 		<td>组件图纸材料效率（%）：</td>
-		<td><input type="number" name="tuzhicailiao" value="10" min="0" max="10"></td>
+		<td><input type="number" name="tuzhicailiao" value="10" min="0" max="10" placeholder="不能为空 not null" required></td>
 	</tr>
 	<tr>
 		<td>建筑插加成（%）：</td>
@@ -57,26 +57,26 @@
 	</tr>
 	<tr>
 		<td>建筑特有加成（%）：</td>
-		<td><input type="number" name="jianzhu" value="1" min="0" max="10"></td>
+		<td><input type="number" name="jianzhu" value="1" min="0" max="10" placeholder="不能为空 not null" required></td>
 	</tr>
 </table>
 <br>
 	<table><b>所需单独矿物</b>
 		<br>
 <tr>
-<td>三钛合金Tritanium：</td><td><input type="number" name="santai" value="0"></td>
+<td>三钛合金Tritanium：</td><td><input type="number" name="santai" value="0" placeholder="不能为空 not null" required></td>
 </tr><tr>
-	<td>同位聚合体Isogen：</td><td><input type="number" name="tongwei" value="0"></td>
+	<td>同位聚合体Isogen：</td><td><input type="number" name="tongwei" value="0" placeholder="不能为空 not null" required></td>
 </tr><tr>
-	<td>晶状石英Zydrine：</td><td><input type="number" name="jingzhuang" value="0"></td>
+	<td>晶状石英Zydrine：</td><td><input type="number" name="jingzhuang" value="0" placeholder="不能为空 not null" required></td>
 	</tr><tr>
-	<td>类晶体Pyerite：</td><td><input type="number" name="leijing" value="0"></td>
+	<td>类晶体Pyerite：</td><td><input type="number" name="leijing" value="0" placeholder="不能为空 not null" required></td>
 	</tr><tr>
-	<td>类银Mexallon：</td><td><input type="number" name="leiyin" value="0"></td>
+	<td>类银Mexallon：</td><td><input type="number" name="leiyin" value="0" placeholder="不能为空 not null" required></td>
 	</tr><tr>
-	<td>超噬矿Megacyte：</td><td><input type="number" name="chaoshi" value="0"></td>
+	<td>超噬矿Megacyte：</td><td><input type="number" name="chaoshi" value="0" placeholder="不能为空 not null" required></td>
 	</tr><tr>
-	<td>超新星Nocxium：</td><td><input type="number" name="chaoxin" value="0"></td>
+	<td>超新星Nocxium：</td><td><input type="number" name="chaoxin" value="0" placeholder="不能为空 not null" required></td>
 </tr>
 </table>
 <br>
@@ -134,7 +134,7 @@
 	if (nokuang.style.display=="") {
 		nokuang.style.display="none"
 	}
-
+	kuang[0].value=s
 	var m = document.getElementsByTagName("input");
 	for(var i=0;i<m.length;i++)
 	{
@@ -148,7 +148,7 @@
 		isnull.style.display="none"
 	}
 
-	kuang[0].value=s
+	
         console.log(s)
         form.submit()
 }

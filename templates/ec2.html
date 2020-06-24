@@ -18,11 +18,13 @@
 {% endfor %}
 </tr>
 </table>
-<span>总价：{{ cost }}</span>
-
+<br>
+<b>总价：{{ cost }}</b>
+<br>
+<br>
 <table>
 <tr>
-	<td>矿物</td><td>所需矿物</td><td>最终矿物</td><td>差值</td>
+	<td>矿物</td><td>所需矿物（已减去已有）</td><td>最终矿物</td><td>差值</td>
 </tr><tr>
 	<td>三钛合金Tritanium：</td><td>{{ n_santai }}</td><td>{{ f_santai }}</td><td>{{ m_santai }}</td>
 </tr><tr>
@@ -42,5 +44,4 @@
 
 </body>
 </html> 
-
 
