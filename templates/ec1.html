@@ -7,31 +7,34 @@
 	<h3>高密度矿石矿物计算器</h3>
 	
 	<p>相关数据请查看此文档： <a href="https://docs.qq.com/sheet/DWFVicFRSeHBFWFlu?tab=BB08J2&c=A1A0A0">https://docs.qq.com/sheet/DWFVicFRSeHBFWFlu?tab=BB08J2&c=A1A0A0 </a>，数据如有误请反馈</p>
-	<p>精炼率：可以根据<a href="https://docs.google.com/spreadsheets/d/1HlDcxHWJAvYpkNg16lD6u-w8NQVQKkyfJ7Xjl69tTfE/edit#gid=0">https://docs.google.com/spreadsheets/d/1HlDcxHWJAvYpkNg16lD6u-w8NQVQKkyfJ7Xjl69tTfE/edit#gid=0</a> 计算填写。存在误差。</p>
-	<p>计算器根据evemarketer市场计算出满足矿物需求的最低价矿石花费参考，而非溢出矿物最少。有小误差。如果计算结果异常请检查矿石组合。</p>
+	<p>精炼率：可以根据<a href="https://docs.google.com/spreadsheets/d/1HlDcxHWJAvYpkNg16lD6u-w8NQVQKkyfJ7Xjl69tTfE/edit#gid=0">https://docs.google.com/spreadsheets/d/1HlDcxHWJAvYpkNg16lD6u-w8NQVQKkyfJ7Xjl69tTfE/edit#gid=0</a> 计算填写</p>
+	<p>计算器根据evemarketer市场计算出满足矿物需求的最低价矿石花费参考，而非溢出矿物最少。有小误差。<b style="color:red">如果计算结果异常请检查矿石组合。例如所选矿石无法精炼所需矿物。</b></p>
 	<p>最终计算的矿物为表3所填矿物+表4中组件经由表2材料减免后的矿物</p>
 	<br>
 	
 	<form action="/ec2/" method="post" id="form">
 		<table><b>参与计算的矿石</b>
 			<tr><td></td><td>是否参与计算</td><td>已拥有</td></tr>
-<tr><td>希莫非特Hemorphite</td><td><input type="checkbox" name="kuangcb" value=0></td><td><input name="h_kuang0" value="0" type="number"></tr>
-<tr><td>水硼砂Kernite</td><td><input type="checkbox" name="kuangcb" value=1></td><td><input name="h_kuang1" value="0" type="number"></tr>
-<tr><td>奥贝尔石Omber</td><td><input type="checkbox" name="kuangcb" value=2></td><td><input name="h_kuang2" value="0" type="number"></tr>
-<tr><td>斜长岩Plagioclase</td><td><input type="checkbox" name="kuangcb" value=3></td><td><input name="h_kuang3" value="0" type="number"></tr>
-<tr><td>干焦岩Pyroxeres</td><td><input type="checkbox" name="kuangcb" value=4></td><td><input name="h_kuang4" value="0" type="number"></tr>
-<tr><td>灼烧岩Scordite</td><td><input type="checkbox" name="kuangcb" value=5></td><td><input name="h_kuang5" value="0" type="number"></tr>
-<tr><td>凡晶石Veldspar</td><td><input type="checkbox" name="kuangcb" value=6></td><td><input name="h_kuang6" value="0" type="number"></tr>
-<tr><td>同位原矿Hedbergite</td><td><input type="checkbox" name="kuangcb" value=7></td><td><input name="h_kuang7" value="0" type="number"></tr>
-<tr><td>杰斯贝矿Jaspet</td><td><input type="checkbox" name="kuangcb" value=8></td><td><input name="h_kuang8" value="0" type="number"></tr>
-<tr><td>艾克诺岩Arkonor</td><td><input type="checkbox" name="kuangcb" value=9></td><td><input name="h_kuang9" value="0" type="number"></tr>
-<tr><td>黑赭石Dark Ochre</td><td><input type="checkbox" name="kuangcb" value=10></td><td><input name="h_kuang10" value="0" type="number"></tr>
-<tr><td>灰岩Spodumain</td><td><input type="checkbox" name="kuangcb" value=11></td><td><input name="h_kuang11" value="0" type="number"></tr>
-<tr><td>克洛基石Crokite</td><td><input type="checkbox" name="kuangcb" value=12></td><td><input name="h_kuang12" value="0" type="number"></tr>
-<tr><td>双多特石Bistot</td><td><input type="checkbox" name="kuangcb" value=13></td><td><input name="h_kuang13" value="0" type="number"></tr>
-<tr><td>片麻岩Gneiss </td><td><input type="checkbox" name="kuangcb" value=14></td><td><input name="h_kuang14" value="0" type="number"></tr>
+<tr><td>希莫非特Hemorphite</td><td><input type="checkbox" name="kuangcb" value=0></td><td><input name="h_kuang0" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>水硼砂Kernite</td><td><input type="checkbox" name="kuangcb" value=1></td><td><input name="h_kuang1" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>奥贝尔石Omber</td><td><input type="checkbox" name="kuangcb" value=2></td><td><input name="h_kuang2" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>斜长岩Plagioclase</td><td><input type="checkbox" name="kuangcb" value=3></td><td><input name="h_kuang3" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>干焦岩Pyroxeres</td><td><input type="checkbox" name="kuangcb" value=4></td><td><input name="h_kuang4" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>灼烧岩Scordite</td><td><input type="checkbox" name="kuangcb" value=5></td><td><input name="h_kuang5" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>凡晶石Veldspar</td><td><input type="checkbox" name="kuangcb" value=6></td><td><input name="h_kuang6" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>同位原矿Hedbergite</td><td><input type="checkbox" name="kuangcb" value=7></td><td><input name="h_kuang7" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>杰斯贝矿Jaspet</td><td><input type="checkbox" name="kuangcb" value=8></td><td><input name="h_kuang8" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>艾克诺岩Arkonor</td><td><input type="checkbox" name="kuangcb" value=9></td><td><input name="h_kuang9" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>黑赭石Dark Ochre</td><td><input type="checkbox" name="kuangcb" value=10></td><td><input name="h_kuang10" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>灰岩Spodumain</td><td><input type="checkbox" name="kuangcb" value=11></td><td><input name="h_kuang11" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>克洛基石Crokite</td><td><input type="checkbox" name="kuangcb" value=12></td><td><input name="h_kuang12" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>双多特石Bistot</td><td><input type="checkbox" name="kuangcb" value=13></td><td><input name="h_kuang13" value="0" type="number" placeholder="不能为空 not null" required></tr>
+<tr><td>片麻岩Gneiss </td><td><input type="checkbox" name="kuangcb" value=14></td><td><input name="h_kuang14" value="0" type="number" placeholder="不能为空 not null" required></tr>
+
 			
 		</table>
+		<input type="button" value="矿石全选" onclick="allkuang()">
+		<input type="button" value="矿石全不选" onclick="nokuang()">
 	<input type="text" name="kuang" style="display:none;">	
 	<br>
 		{% csrf_token %}
@@ -84,34 +87,37 @@
 		<td>所需数量</td>
 	</tr>
 	<tr><td>旗舰推进引擎Capital Propulsion Engine</td><td><input type="number" name="qj0" value="0" min="0"></td></tr>
-<tr><td>旗舰炮台挂点 Capital Turret Hardpoint</td><td><input type="number" name="qj1" value="0" min="0"></td></tr>
-<tr><td>旗舰感应器组Capital Sensor Cluster</td><td><input type="number" name="qj2" value="0" min="0"></td></tr>
-<tr><td>旗舰附甲Capital Armor Plates</td><td><input type="number" name="qj3" value="0" min="0"></td></tr>
-<tr><td>旗舰电容器电池Capital Capacitor Battery</td><td><input type="number" name="qj4" value="0" min="0"></td></tr>
-<tr><td>旗舰发电机组Capital Power Generator</td><td><input type="number" name="qj5" value="0" min="0"></td></tr>
-<tr><td>旗舰护盾发射器Capital Shield Emitter</td><td><input type="number" name="qj6" value="0" min="0"></td></tr>
-<tr><td>旗舰跳跃引擎Capital Jump Drive</td><td><input type="number" name="qj7" value="0" min="0"></td></tr>
-<tr><td>旗舰无人机挂舱Capital Drone Bay</td><td><input type="number" name="qj8" value="0" min="0"></td></tr>
-<tr><td>旗舰计算机系统Capital Computer System</td><td><input type="number" name="qj9" value="0" min="0"></td></tr>
-<tr><td>旗舰建设构件Capital Construction Parts</td><td><input type="number" name="qj10" value="0" min="0"></td></tr>
-<tr><td>旗舰跳跃桥接阵列Capital Jump Bridge Array</td><td><input type="number" name="qj11" value="0" min="0"></td></tr>
-<tr><td>旗舰克隆舱Capital Clone Vat Bay</td><td><input type="number" name="qj12" value="0" min="0"></td></tr>
-<tr><td>旗舰末日武器安装位Capital Doomsday Weapon Mount</td><td><input type="number" name="qj13" value="0" min="0"></td></tr>
-<tr><td>旗舰会战能源阵列Capital Siege Array</td><td><input type="number" name="qj14" value="0" min="0"></td></tr>
-<tr><td>旗舰船只维护舱Capital Ship Maintenance Bay</td><td><input type="number" name="qj15" value="0" min="0"></td></tr>
-<tr><td>旗舰联合机库舱Capital Corporate Hangar Bay</td><td><input type="number" name="qj16" value="0" min="0"></td></tr>
-<tr><td>旗舰货柜舱Capital Cargo Bay</td><td><input type="number" name="qj17" value="0" min="0"></td></tr>
+<tr><td>旗舰炮台挂点 Capital Turret Hardpoint</td><td><input type="number" name="qj1" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰感应器组Capital Sensor Cluster</td><td><input type="number" name="qj2" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰附甲Capital Armor Plates</td><td><input type="number" name="qj3" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰电容器电池Capital Capacitor Battery</td><td><input type="number" name="qj4" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰发电机组Capital Power Generator</td><td><input type="number" name="qj5" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰护盾发射器Capital Shield Emitter</td><td><input type="number" name="qj6" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰跳跃引擎Capital Jump Drive</td><td><input type="number" name="qj7" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰无人机挂舱Capital Drone Bay</td><td><input type="number" name="qj8" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰计算机系统Capital Computer System</td><td><input type="number" name="qj9" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰建设构件Capital Construction Parts</td><td><input type="number" name="qj10" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰跳跃桥接阵列Capital Jump Bridge Array</td><td><input type="number" name="qj11" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰克隆舱Capital Clone Vat Bay</td><td><input type="number" name="qj12" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰末日武器安装位Capital Doomsday Weapon Mount</td><td><input type="number" name="qj13" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰会战能源阵列Capital Siege Array</td><td><input type="number" name="qj14" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰船只维护舱Capital Ship Maintenance Bay</td><td><input type="number" name="qj15" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰联合机库舱Capital Corporate Hangar Bay</td><td><input type="number" name="qj16" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+<tr><td>旗舰货柜舱Capital Cargo Bay</td><td><input type="number" name="qj17" value="0" min="0" placeholder="不能为空 not null" required></td></tr>
+
 
 </table>
 <input type="button" value="开始计算" onclick="addp()">
 <input type="reset" value="全部重置">
 <span style="display: none;color: red;" id="nokuangselected">未选择矿石</span>
+<span style="display: none;color: red;" id="isnull">输入框不能为空，如无请填写0</span>
 </form>
 
 <script type="text/javascript">
 	function addp(){
 	var kuangcb=document.getElementsByName("kuangcb");
 	var nokuang = document.getElementById("nokuangselected")
+	var isnull = document.getElementById("isnull")
 	var form = document.getElementById("form")
 	var kuang = document.getElementsByName("kuang")
 	var s='';
@@ -122,19 +128,46 @@
 	console.log(s)
 	if(s==''){
 		nokuang.style.display=""
-	return
+		return
 	}
+
 	if (nokuang.style.display=="") {
 		nokuang.style.display="none"
 	}
+
+	var m = document.getElementsByTagName("input");
+	for(var i=0;i<m.length;i++)
+	{
+		if(m[i].value==""||m[i].value==null)
+		{
+			isnull.style.display=""
+			return
+		}
+	}
+	if (isnull.style.display=="") {
+		isnull.style.display="none"
+	}
+
 	kuang[0].value=s
         console.log(s)
         form.submit()
 }
 
-	
+	function allkuang(){
+		var c = document.getElementsByName("kuangcb");
+		for (var i = 0; i < c.length; i++) {      
+		if (c[i].type == "checkbox")           
+			c[i].checked = true;           
+		}
+	}
+	function nokuang(){
+		var c = document.getElementsByName("kuangcb");
+		for (var i = 0; i < c.length; i++) {      
+		if (c[i].type == "checkbox")           
+			c[i].checked = false;           
+		}
+	}
 
 </script>
 </body>
 </html>
-
