@@ -268,12 +268,18 @@ def ec2(request):
     lp=lp_maker(f,A,b,[1,1,1,1,1,1,1],l,None,None,1,1)
     #set_int(lp,1,TRUE)
     solvestat = lpsolve('solve', lp)
-    x = lpsolve('get_variables', lp)[0]
+    y = lpsolve('get_variables', lp)[0]
+    x=[]
+    if(isinstance(y,list)):
+        x=y
+    else:
+        x.append(y)
     print(x)
     #将规划好的数据向上取整，得到各高密度矿石数量
     for i in range(len(x)):
         x[i] = math.ceil(x[i])
     
+    #这个answer变量好像没用上，本意是最终所有矿石的结果和所有矿石的价格表遍历相乘，但是后来使用了最终结果的x列表和指定矿石的价格。
     answer=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     for i in range(len(kl1)):   
         answer[kl1[i]]=int(x[i])
@@ -334,7 +340,8 @@ def ec2(request):
     
     cost=0
     for i in range(len(kuangpricelist)):
-        cost = cost + answer[i]*kuangpricelist[i]
+        #cost = cost + answer[i]*kuangpricelist[i]
+        cost = cost + x[i]*kuangpricelist[i]
     
 
     
